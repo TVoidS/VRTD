@@ -1,0 +1,40 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class EnemyStats : MonoBehaviour {
+
+    public Transform healthBar;
+    public Slider healthFill;
+
+    public float currentHealth;
+    public float maxHealth;
+    public float healthBarYOffset = 2;
+
+	
+	// Update is called once per frame
+	void Update () {
+        PositionHealthBar();
+	}
+
+    public void ChangeHealth(int amount)
+    {
+        currentHealth += amount;
+
+        //Ensures health does not dip below 0 or become greater than Max
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        //Generates percentage of max health
+        healthFill.value = currentHealth / maxHealth;
+    }
+
+    private void PositionHealthBar()
+    {
+        Vector3 currentPos = transform.position;
+
+        healthBar.position = new Vector3(currentPos.x, currentPos.y + healthBarYOffset, currentPos.z);
+
+        healthBar.LookAt(Camera.main.transform);
+    }
+}
